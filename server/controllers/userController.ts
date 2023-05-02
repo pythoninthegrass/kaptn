@@ -1,6 +1,12 @@
+<<<<<<< HEAD:server/controllers/userController.ts
 import Users from '../models/UserModel';
 import bcrypt from 'bcryptjs';
 import * as express from 'express';
+=======
+const Users = require('../models/UserModel');
+var qs = require('querystring');
+const bcrypt = require('bcryptjs');
+>>>>>>> 3c782788463c4421708f2ed389063280d1c6bded:server/controllers/userController.js
 
 const userController: Record<string, any> = {}
 

@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import userRouter from './routes/userRouter';
 import clusterRouter from './routes/clusterRouter';
+import setupRouter from './routes/setupRouter'
 import mongoose from 'mongoose';
 import path from 'path';
 
@@ -28,7 +29,8 @@ app.use('/user', userRouter);
 app.use(express.static(path.join(__dirname, '../index')));
 
 // Yining addition: Handle routes to /clusterinfo
-// app.use('/clusterinfo', clusterRouter);
+app.use('/prom-graf-setup', setupRouter);
+
 
 // Handle invalid endpoint
 app.use((req: express.Request, res: express.Response) => {

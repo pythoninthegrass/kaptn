@@ -17,5 +17,5 @@
     "strictNullChecks": false,
     "allowImportingTsExtensions": true
   },
-  "include": ["src/**/*", "server/**/*", "global.d.ts"]
+  "include": ["src/**/*", "server/**/*", "global.d.ts", "redis.js"]
 }
