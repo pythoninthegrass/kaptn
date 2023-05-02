@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const apiRouter = require('./routes/apiRouter.js');
 const userRouter = require('./routes/userRouter.js');
-const clusterRouter = require('./routes/clusterRouter.js');
 const setupRouter = require('./routes/setupRouter.js');
 
 const mongoose = require('mongoose');
