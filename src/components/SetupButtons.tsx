@@ -30,12 +30,33 @@ useEffect(() => {
 
     //Listen to retrieve_key event
     ipcRenderer.on('retrieve_key', (event, arg) => {
+      console.log('arg', arg)
       setKey(arg)
+      console.log('key', key)
+      if (key !== '') {
+        ipcRenderer.send('retrieve_uid', { key:key,
+        dashboard: 'Kubernetes / API server'}); 
+      }
+
+
     });
+
 
     //Listen to retrieve_uid event
     ipcRenderer.on('retrieve_uid', (event, arg) => {
-      setUid(arg)
+      console.log(arg)
+      setUid(arg)      
+      console.log(url)
+      console.log("UID IS THIS!", uid)
+      // if (uid !== '') {
+      //   return (<iframe
+      //   className='frame'
+      //   src={url}
+      //   width="90%"
+      //   height="100%"
+      //   title="embed cluster"
+      //   ></iframe>)
+      // }
     });
   })
 
@@ -60,8 +81,8 @@ useEffect(() => {
     //   .then((res) => res.json())
     //   .then((data) => setKey(data));
 
-    ipcRenderer.send('retrieve_uid', { key,
-      dashboard: 'Kubernetes / API server'});
+    // ipcRenderer.send('retrieve_uid', { key:key,
+    //   dashboard: 'Kubernetes / API server'});
     // fetch('/api/uid', {
     //   method: 'POST',
     //   headers: {
@@ -121,7 +142,9 @@ useEffect(() => {
       title="embed cluster"
 
     ></iframe>
-      
+      {/* <div>
+        
+      </div> */}
       
     </>
   );

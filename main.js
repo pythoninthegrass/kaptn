@@ -3,8 +3,8 @@ const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
 const electronBrowserWindow = require('electron').BrowserWindow;
 const electronIpcMain = require('electron').ipcMain;
 const nodePath = require('path');
-const { exec } = require('child_process');
-const redis = require('./redis');
+const { exec, spawnSync, spawn } = require('child_process');
+// const redis = require('./redis');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -109,7 +109,7 @@ ipcMain.on('graf_setup', (event, arg) => {
 // Listen to forward_ports event
 ipcMain.on('forward_ports', (event, arg) => {
   const ports = spawn(
-    `kubectl port-forward deployment/prometheus-grafana 3000`,
+    `kubectl port-forward deployment/prometheus666-grafana 3000`,
     {
       shell: true,
     }
@@ -132,12 +132,12 @@ ipcMain.on('retrieve_key', (event, arg) => {
   // Helper function to retrieve the API key
   const getAPIKey = async () => {
     try {
-      const cachedValue = await redis.get(cacheKey);
-      // Return the cached API key if it exists
-      if (cachedValue !== null) {
-        // Send the cached response
-        return event.sender.send('retrieve_key', cachedValue);
-      }
+      // const cachedValue = await redis.get(cacheKey);
+      // // Return the cached API key if it exists
+      // if (cachedValue !== null) {
+      //   // Send the cached response
+      //   return event.sender.send('retrieve_key', cachedValue);
+      // }
       // If the API key is not in the cache, fetch it from the API
       const response = await fetch('http://localhost:3000/api/auth/keys', {
         method: 'POST',
@@ -170,16 +170,19 @@ ipcMain.on('retrieve_key', (event, arg) => {
 // Listen to retrieve_uid event
 ipcMain.on('retrieve_uid', (event, arg) => {
   const { key, dashboard } = arg;
+  console.log(arg)
+  console.log(key)
+  console.log(dashboard)
 
   // Helper function to retrieve the UID key
   const getUID = async () => {
     try {
-      const cachedValue = await redis.get(dashboard);
+      // const cachedValue = await redis.get(dashboard);
 
-      // Return the cached UID if it exists
-      if (cachedValue !== null) {
-        return event.sender.send('retrieve_uid', cachedValue);
-      }
+      // // Return the cached UID if it exists
+      // if (cachedValue !== null) {
+      //   return event.sender.send('retrieve_uid', cachedValue);
+      // }
 
       // If the UID is not in the cache, fetch it from the API
       let response = await fetch(
@@ -199,6 +202,7 @@ ipcMain.on('retrieve_uid', (event, arg) => {
 
       // Send the fetched response
       const uid = data[0].uid;
+      console.log("THIS IS THE UID", uid)
       return event.sender.send('retrieve_uid', uid);
     } catch (error) {
       console.log(error);
