@@ -202,7 +202,6 @@ ipcMain.on('retrieve_uid', (event, arg) => {
 
       // Send the fetched response
       const uid = data[0].uid;
-      console.log("THIS IS THE UID", uid)
       return event.sender.send('retrieve_uid', uid);
     } catch (error) {
       console.log(error);
